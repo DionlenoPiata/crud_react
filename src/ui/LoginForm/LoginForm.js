@@ -18,6 +18,7 @@ class LoginForm extends Component {
     static displayName = "ui-LoginForm";
 
     handleSubmit(e) {
+
         e.preventDefault();
         let dataToSend = {
             user: {
@@ -27,18 +28,19 @@ class LoginForm extends Component {
         }
 
         fetch('http://localhost:3001/users/authenticate', {
-            method: 'POST',
-            body: JSON.stringify(dataToSend),
-             header: {
+            method: "POST",
+            body: JSON.stringify(dataToSend.user),
+            headers: {
                 "Content-Type": "application/json"
-            },
+            }
 
         }).then(response => response.json())
-        .then(responseJson => {
-            if(responseJson.sucess){
-                localStorage.setItem('USER_TOKEN', responseJson.token)
-            }
-        })
+            .then(responseJson => {
+                localStorage.setItem('USER_TOKEN', responseJson.token);
+
+            }).catch(err => {
+                throw err;
+            });
     }
 
     handleEmailChange(e) {
